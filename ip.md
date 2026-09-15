@@ -1,0 +1,72 @@
+# 1. O que é um IP
+
+Um **IP (Internet Protocol)** é um endereço numérico único atribuído a um dispositivo conectado a uma rede. Ele funciona como uma "identidade" que permite que o dispositivo seja localizado e alcançado por outros.
+
+Quando duas máquinas precisam se comunicar — seja seu notebook acessando um site, seja um servidor respondendo a essa requisição — elas usam o IP para saber para onde enviar e de onde receber os dados. Sem IP, não há como rotear informação entre dispositivos.
+
+Servidores e sites também possuem IP. Quando você digita `google.com`, por trás disso existe um IP real (ex: `142.250.219.14`) que identifica o servidor que vai responder. Isso vai ficar mais claro nas seções seguintes.
+
+# 2. IPv4 / IPv6
+
+**IPv4** é o formato mais tradicional de endereço IP, composto por 4 blocos de números de 0 a 255, separados por pontos:
+
+```
+192.168.0.1
+```
+
+Ele suporta cerca de 4,3 bilhões de endereços únicos. Isso parecia muito nos anos 80, mas com a explosão de dispositivos conectados (celulares, IoT, servidores), esse número se esgotou.
+
+Por isso foi criado o **IPv6**: um formato bem maior, em hexadecimal, que suporta um número praticamente inesgotável de endereços (2^128 combinações):
+
+```
+2001:0db8:85a3:0000:0000:8a2e:0370:7334
+```
+
+Hoje os dois convivem: muita infraestrutura ainda roda em IPv4 (às vezes com truques como NAT para "esticar" os endereços disponíveis), enquanto a adoção de IPv6 cresce aos poucos.
+
+# 3. IP Público vs Privado
+
+**IP Público**: é único no mundo inteiro e permite que o dispositivo se comunique diretamente com a internet, sem intermediário. É o tipo de IP que um servidor do Google, por exemplo, tem — qualquer máquina na internet pode alcançá-lo diretamente por esse endereço.
+
+**IP Privado**: é usado dentro de redes locais (sua casa, seu escritório) e **não** é acessível diretamente pela internet. Seu notebook, celular e smart TV em casa geralmente têm IPs privados (ex: `192.168.0.15`), e é o roteador — que tem um IP público — quem faz a ponte entre essa rede interna e a internet.
+
+**Por que isso surgiu?**
+1. **Escassez de endereços**: não existem IPs públicos suficientes para cada dispositivo do planeta ter o seu. Usar IP privado dentro das redes locais economiza endereços públicos.
+2. **Segurança**: expor todo dispositivo diretamente à internet seria perigoso — qualquer máquina do mundo poderia tentar se conectar diretamente a ele, sem nenhuma barreira. Com IP privado, o roteador atua como um filtro, controlando o que entra e sai da rede.
+
+# 4. Rede
+
+Uma **rede** é basicamente um conjunto de dispositivos (cada um com seu IP) conectados entre si, capazes de trocar dados.
+
+As formas mais comuns de conexão física/lógica a uma rede são:
+- **Ethernet**: conexão via cabo, mais estável e rápida.
+- **Wi-Fi**: conexão sem fio, mais prática, porém sujeita a mais interferência.
+
+Dentro de uma mesma rede, dispositivos diferentes (notebook, celular, impressora, servidor) podem coexistir e se comunicar entre si, cada um identificado pelo seu IP dentro daquele grupo.
+
+# 5. Máscara de Sub-rede
+
+Dentro de uma rede, os dispositivos têm IPs parecidos (ex: `192.168.0.10`, `192.168.0.11`, `192.168.0.12`). Isso levanta uma pergunta: como o sistema sabe **onde termina a identificação da rede** e **onde começa a identificação do dispositivo**?
+
+É aí que entra a **máscara de sub-rede**. Ela define, dentro de um endereço IP, qual parte identifica a rede e qual parte identifica o dispositivo (host) dentro dela.
+
+Exemplo com máscara `255.255.255.0`:
+- `192.168.0` → identifica a rede
+- `.10` → identifica o dispositivo específico dentro dessa rede
+
+Ou seja, a máscara permite que o sistema separe "em qual rede este dispositivo está" de "qual é este dispositivo dentro da rede".
+
+# 6. Endereço MAC
+
+O **endereço MAC (Media Access Control)** é um identificador único gravado fisicamente na placa de rede (Ethernet ou Wi-Fi) de um dispositivo, atribuído pelo próprio fabricante do hardware. Exemplo de formato:
+
+```
+A4:C3:F0:85:AC:2D
+```
+
+Diferenças importantes em relação ao IP:
+- **MAC é fixo**: pertence ao hardware e normalmente não muda, independentemente da rede em que o dispositivo está.
+- **IP é lógico e variável**: muda conforme a rede à qual o dispositivo se conecta (em casa, no trabalho, em um café).
+- **Camadas diferentes**: o MAC opera na camada de enlace (identifica o dispositivo *dentro* de uma rede local), enquanto o IP opera na camada de rede (permite a comunicação *entre* redes diferentes, inclusive pela internet).
+
+Na prática: quando um dado trafega dentro da sua rede local, o MAC é usado para entregá-lo ao dispositivo certo. Quando esse dado precisa sair para a internet, é o IP que assume esse papel.
